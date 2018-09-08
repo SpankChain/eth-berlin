@@ -8,7 +8,7 @@ const contractAbi = require('./LedgerChannel.json').abi
 const contractAddress = '0xb80996993505eb2d95efb775333b1a5c2708086f'
 const ingridAddress = '0x8ec75ef3adf6c953775d0738e0e7bd60e647e5ef'
 
-const STREAM_ID = '25e9a7dac61f30909106cdecc24e4b95798a7259b04273333e38414e64edf562'
+const STREAM_ID = 'd8072aae72b84c63f1136e6a525dfef04e2ca5f39f232874da4a4a45372b2ebd'
 const SOURCE = 'http://localhost:8935/stream/' + STREAM_ID + '.m3u8'
 
 class App extends Component {
@@ -29,6 +29,7 @@ class App extends Component {
       delegateAccount: '0x',
         videoStyle: {display: 'hidden'}
     }
+    this.videoRef = React.createRef()
   }
 
   registerDelegateKey = async () => {
@@ -47,12 +48,12 @@ class App extends Component {
       if(Hls.isSupported()) {
           var hls = new Hls();
           hls.loadSource(SOURCE);
-          hls.attachMedia(video);
+          hls.attachMedia(this.videoRef.current);
       }
   }
 
   handlePlay () {
-      let video = document.getElementById('video')
+      let video = this.videoRef.current
       video.play()
   }
 
@@ -74,7 +75,7 @@ class App extends Component {
           <div style={this.state.videoStyle}>
             <button onClick={this.handlePlay.bind(this)}>Play</button>
             <div className='video-container'>
-                <video id="video"/>
+                <video ref={this.videoRef}/>
             </div>
           </div>
       </div>
