@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Hls from 'hls.js'
 
 const TX = require('ethereumjs-tx')
 const Web3 = require('web3')
@@ -18,6 +19,9 @@ function bufferToHex(buffer) {
   return '0x' + buffer.toString('hex')
 }
 
+const STREAM_ID = 'd8072aae72b84c63f1136e6a525dfef04e2ca5f39f232874da4a4a45372b2ebd'
+const SOURCE = 'http://localhost:8935/stream/' + STREAM_ID + '.m3u8'
+
 class App extends Component {
   constructor( ) {
     super()
@@ -34,7 +38,9 @@ class App extends Component {
     this.state = {
       masterAccount: '0x',
       delegateAccount: '0x',
+        videoStyle: {display: 'hidden'}
     }
+    this.videoRef = React.createRef()
   }
 
   registerDelegateKey = async () => {
@@ -114,6 +120,22 @@ class App extends Component {
       )
     })
     console.log(tx)
+      this.setState({
+          videoStyle: {display: 'block'}
+      })
+  }
+
+  componentDidMount () {
+      if(Hls.isSupported()) {
+          var hls = new Hls();
+          hls.loadSource(SOURCE);
+          hls.attachMedia(this.videoRef.current);
+      }
+  }
+
+  handlePlay () {
+      let video = this.videoRef.current
+      video.play()
   }
 
   render() {
@@ -133,6 +155,13 @@ class App extends Component {
           Ingrid Account: {ingridAddress}
         </p>
         <button onClick={this.registerDelegateKey}>Register Delegate Key</button>
+        <hr />
+          <div style={this.state.videoStyle}>
+            <button onClick={this.handlePlay.bind(this)}>Play</button>
+            <div className='video-container'>
+                <video ref={this.videoRef}/>
+            </div>
+          </div>
         <button onClick={this.createChannel}>Create Channel</button>
         <button onClick={this.joinChannel}>Join Channel</button>
         <button onClick={this.getChannnel}>Get Channel</button>
