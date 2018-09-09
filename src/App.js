@@ -221,10 +221,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
+        <div>
+            <h1 className="logo">PeerDuck</h1>
+        </div>
         <p className="App-intro">
           Master Account: {this.state.masterAccount}
         </p>
@@ -234,20 +233,22 @@ class App extends Component {
         <p className="App-intro">
           Ingrid Account: {ingridAddress}
         </p>
-        <button onClick={this.registerDelegateKey}>Register Delegate Key</button>
+        <button onClick={this.registerDelegateKey} className="button">Register Delegate Key</button>
         <hr />
           <div style={this.state.videoStyle}>
-            <button onClick={this.handlePlay.bind(this)}>Play</button>
+            <button onClick={this.handlePlay.bind(this)} style={{display: 'none'}}>Play</button>
             <div className='video-container'>
                 <video ref={this.videoRef}/>
+                <iframe width="560" height="315" style={{marginLeft: '-280px'}} src="https://www.youtube.com/embed/fZEHhLloF0w" frameBorder="0"
+                        allow="autoplay; encrypted-media" allowFullScreen></iframe>
             </div>
           </div>
-        <button onClick={this.createChannel}>Create Channel</button>
-        <button onClick={this.joinChannel}>Join Channel</button>
-        <button onClick={this.getChannnel}>Get Channel</button>
-        <button onClick={this.deposit}>Deposit</button>
-        <button onClick={this.getParty}>Check Delegate Key</button>
-        <button onClick={this.testTransactionn}>Test</button>
+        <button onClick={this.createChannel} className="button">Create Channel</button>
+        <button onClick={this.joinChannel} className="button">Join Channel</button>
+        <button onClick={this.getChannnel} className="button">Get Channel</button>
+        <button onClick={this.deposit} className="button">Deposit</button>
+        <button onClick={this.getParty} className="button">Check Delegate Key</button>
+        <button onClick={this.testTransactionn} className="button">Test</button>
       </div>
     );
   }
