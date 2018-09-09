@@ -10,7 +10,7 @@ const contractAbi = require('./LedgerChannel.json').abi
 const contractAddress = '0xb80996993505eb2d95efb775333b1a5c2708086f'
 const ingridAddress = '0x8ec75ef3adf6c953775d0738e0e7bd60e647e5ef'
 const ingridKey = '0xf0f18fd1df636821d2d6a04b4d4f4c76fc33eb66c253ae1e4028bf33c48622bc'
-const channelId = '0xc053f0bac5feb9fd8d527d0d7c4880420563b8cbfb5bead85515401723cbb651'
+let channelId = '0xc053f0bac5feb9fd8d527d0d7c4880420563b8cbfb5bead85515401723cbb651'
 
 function hexToBuffer(hexString) {
   return new Buffer(hexString.substr(2, hexString.length), 'hex')
@@ -59,10 +59,10 @@ class App extends Component {
   }
 
   createChannel = async () => {
-    const lcId = Web3.utils.sha3('1111' + Math.random(), { encoding: 'hex' })
-    console.log('channelId', lcId)
+    channelId = Web3.utils.sha3('1111' + Math.random(), { encoding: 'hex' })
+    console.log('channelId', channelId)
     const callData = this.masterContract['createChannel'].getData(
-      lcId,
+      channelId,
       this.state.masterAccount,
       '0',
       '0',
